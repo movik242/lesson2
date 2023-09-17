@@ -1,0 +1,16 @@
+- name: Configure the storage
+  hosts: movik
+  become: true
+  tasks:
+   - name: Create a RAID on sdb, sdc, sdd, sde, sdf
+     include_role:
+       name: rhel-system-roles.storage
+     vars:
+       storage_safe_mode: false
+       storage_volumes:
+        - name: md0
+          type: raid
+          disks: [sdb, sdc, sdd, sde, sdf]
+          raid_level: raid1
+          mount_point: /mnt/data
+          state: present
